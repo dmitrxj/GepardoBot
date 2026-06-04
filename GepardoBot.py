@@ -176,7 +176,7 @@ def render_hexagram(lines):
 
 
 def find_hexagram(lines):
-    match = tuple(lines)
+    match = tuple(reversed(lines))
 
     for number, pattern in iching.items():
         if pattern == match:
@@ -194,18 +194,22 @@ kb_throw = ReplyKeyboardMarkup(resize_keyboard=True)
 kb_throw.add(KeyboardButton(button_text))
 
 kb_start = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_start.add(KeyboardButton("/question"))
+kb_start.add(KeyboardButton("🔮 Вопрос"))
 
 
 @dp.message_handler(commands=["start"])
 async def start_command(message: types.Message):
     await message.answer(
-        text="Привет.\n\nНажмите /question, чтобы начать.",
+        text="Привет.\n\nНажмите 🔮 Вопрос, чтобы начать.",
         reply_markup=kb_start
     )
 
 
-@dp.message_handler(commands=["question"])
+@dp.message_handler(
+    lambda message:
+    message.text == "🔮 Вопрос" or
+    message.text == "/question"
+)
 async def question_command(message: types.Message):
     user_id = message.from_user.id
     user_lines[user_id] = []
