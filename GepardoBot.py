@@ -176,14 +176,13 @@ def render_hexagram(lines):
 
 
 def find_hexagram(lines):
-    match = tuple(reversed(lines))
+    match = tuple(lines)
 
     for number, pattern in iching.items():
         if pattern == match:
-            return number, iching_lib[number]
+            return number, iching_lib.get(number)
 
     return None, "Гексаграмма не найдена."
-
 
 bot = Bot(TOKEN_API)
 dp = Dispatcher(bot)
